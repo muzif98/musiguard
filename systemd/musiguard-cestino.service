@@ -1,0 +1,14 @@
+# MusiGuard: weekly maintenance (ClamAV signatures, system Trash, quarantine,
+# log rotation). Not enabled directly: started by musiguard-cestino.timer.
+# Install with ./installa-servizio.sh (or manually: copy to
+# ~/.config/systemd/user/ and run "systemctl --user enable --now musiguard-cestino.timer").
+
+[Unit]
+Description=MusiGuard - pulizia e controlli settimanali (ClamAV, Cestino, Quarantena, log)
+# zenity/notify-send prompts need a display and the session bus.
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/MusiGuard/scripts/pulizia-cestino.sh

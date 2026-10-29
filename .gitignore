@@ -1,0 +1,5 @@
+# Runtime logs and state created by the scripts
+*.log
+*.log.old
+*.log.*
+.*.lock

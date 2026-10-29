@@ -1,0 +1,26 @@
+# MusiGuard: systemd USER service for the download guardian.
+# Install with ./installa-servizio.sh (or manually: copy this file to
+# ~/.config/systemd/user/ and run "systemctl --user enable --now musiguard-guardiano").
+# Run as a service so it is restarted automatically if it dies.
+
+[Unit]
+Description=MusiGuard - guardiano download (scansione e smistamento PreDownload)
+# Bound to the GRAPHICAL session, not boot: zenity and notify-send need a
+# display and the session bus. PartOf also stops it on logout.
+After=graphical-session.target
+PartOf=graphical-session.target
+# Stop retrying after 5 failures in 5 minutes (e.g. a missing dependency).
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+# %h = user's home (units do not expand ~ or $HOME).
+ExecStart=%h/MusiGuard/scripts/guardiano-download.sh
+Restart=on-failure
+RestartSec=5
+# The guardian exits 0 if another instance holds the lock: with on-failure
+# this does not cause a restart loop, by design.
+
+[Install]
+WantedBy=graphical-session.target

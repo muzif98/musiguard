@@ -1,0 +1,13 @@
+# MusiGuard: triggers musiguard-cestino.service once a week.
+# Persistent=true: a run missed while the machine was off or suspended is
+# caught up at the next boot.
+
+[Unit]
+Description=MusiGuard - timer pulizia e controlli settimanali
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
